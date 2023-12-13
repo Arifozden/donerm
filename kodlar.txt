@@ -1,0 +1,30 @@
+client with react:
+npm create vite@latest client
+y
+select react
+select javascript+swc
+------------------------
+cd client
+------------------------
+
+<!--https://tailwindcss.com/docs/guides/vite-->
+
+npm install -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init -p
+----
+npm i react-icons
+-----------------------
+npm init -y
+frontend-backend baglantisi dosyalari
+
+npm i express
+
+-------
+
+backend baslangic
+
+api klasrou ve index.js
+node api/index.js calistirma
+her degisiklikten sonra otomatik yenileme
+npm i nodemon
