@@ -28,3 +28,5 @@ api klasrou ve index.js
 node api/index.js calistirma
 her degisiklikten sonra otomatik yenileme
 npm i nodemon
+-----
+git te problem oldu. tum eklenenleri silip ana klasoru yukledik ve uzerine yazmaya devam ettik
