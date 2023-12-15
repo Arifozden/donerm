@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: "https://static3.depositphotos.com/1000152/162/i/600/depositphotos_1626147-stock-photo-helping-hand.jpg",
+        default: "https://st2.depositphotos.com/1007566/12298/v/950/depositphotos_122983838-stock-illustration-kawaii-cartoon-heart.jpg",
     },
 }, { timestamps: true});
 
