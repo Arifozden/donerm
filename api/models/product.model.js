@@ -2,25 +2,21 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
     {
-        name: {
+        title: {
             type: String,
             required: [true, "Name is required"],
-        },
-        phone:{
-            type: String,
-            required: [true, "Phone is required"],
-        },
-        price: {
-            type: Number,
-            required: [true, "Price is required"],
         },
         description: {
             type: String,
             required: [true, "Description is required"],
         },
-        images: {
-            type: Array,
-            required: [true, "Images is required"],
+        condition:{
+            type: String,
+            required: [true, "Used is required"],
+        },
+        price: {
+            type: Number,
+            required: [true, "Price is required"],
         },
         category: {
             type: String,
@@ -30,9 +26,17 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: [true],
         },
+        phone:{
+            type: String,
+            required: [true, "Phone is required"],
+        },
         address: {
             type: String,
             required: [true, "Address is required"],
+        },
+        images: {
+            type: Array,
+            required: [true, "Images is required"],
         },
     },
     {

@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Header from './components/Header';
 import Products from './pages/Products';
 import PrivateRoute from './components/privateRoute';
+import CreateProduct from './pages/CreateProduct';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
     <Route path="/about" element={<About />} />
     <Route element={<PrivateRoute />}>
       <Route path="/profile" element={<Profile />} />
+      <Route path="/create-product" element={<CreateProduct />} />
     </Route>
     <Route path="/products" element={<Products />} />
   </Routes>
