@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
+import Product from '../models/product.model.js';
 
 export const test = (req,res) => {
     res.json({
@@ -42,3 +43,17 @@ export const deleteUser = async (req,res, next) => {
         next(error);
     }
 };
+
+export const getUserProducts = async (req,res, next) => {
+    if( req.user.id === req.params.id){
+        try {
+            const products = await Product.find({userRef: req.params.id});
+            res.status(200).json(products);
+        } catch (error) {
+           next(error); 
+        }
+    }
+    else{
+        return next(errorHandler(401, "Can get only view your own products"));}
+     
+}
