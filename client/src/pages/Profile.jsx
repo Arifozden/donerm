@@ -14,6 +14,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showProductsError, setShowProductsError] = useState(false);
+  const [userProducts, setUserProducts] = useState([]);
   const dispatch = useDispatch();
   console.log(formData);
 
@@ -110,6 +112,21 @@ export default function Profile() {
     }
   };
 
+  const handleShowProducts = async () => {
+    try {
+      setShowProductsError(false);
+      const res = await fetch(`/api/user/products/${currentUser._id}`);
+      const data = await res.json();
+      if(data.success === false){
+        setShowProductsError(true);
+        return;
+      }
+      setUserProducts(data);
+    } catch (error) {
+      setShowProductsError(true);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile Page</h1>
@@ -140,8 +157,37 @@ export default function Profile() {
         <button onClick={handleDeleteUser} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg  mr-10 w-40">Delete Account</button>
         <button onClick={handleSignout} className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg w-40">Sign Out</button>
       </div>
+
       <p className="text-red-500 mt-5">{error ? error : ''}</p>
       <p className="text-green-500 mt-5">{updateSuccess ? 'User updated successfully!' : ''}</p>
+      <button onClick={handleShowProducts} className="bg-green-500 text-white p-3 rounded-lg uppercase text-center hover:opacity-90 w-full">Show Products</button>
+      <p className="text-red-500 mt-5">{showProductsError ? 'Error showing products' : ''}</p>
+      
+      {userProducts && userProducts.length > 0 && (
+      <div className="flex flex-col gap-4">
+        <h1 className="text-center mt-7 text-xl font-semibold">Your Products</h1>
+
+        {userProducts.map((product) => (<div key={product._id} className="border rounded-lg p-3 flex justify-between items-center">
+        <Link to={`/product/${product._id}`}>
+          <img src={product.images[0]} alt="product cover" className="h-16 w-16 object-contain" />
+        </Link>
+        <Link className="flex-1 text-slate-500 font-semibold hover:underline truncate gap-4" to={`/product/${product._id}`}>
+          <p>{product.title}</p>
+        </Link>
+
+        <div className="flex flex-col item-center space-y-4">
+          <button className="bg-red-500 uppercase p-1 rounded-lg text-white">Delete</button>
+          <button className="bg-green-500 uppercase p-1 rounded-lg text-white">Edit</button>
+        </div>
+
+        </div>))}
+      </div>
+      
+      )
+    }
+
+
+
     </div>
-  )
+  );
 }

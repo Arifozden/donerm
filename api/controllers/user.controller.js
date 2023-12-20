@@ -54,6 +54,5 @@ export const getUserProducts = async (req,res, next) => {
         }
     }
     else{
-        return next(errorHandler(401, "Can get only view your own products"));}
-     
-}
+        return next(errorHandler(401, "Can get only view your own products"));}    
+};
