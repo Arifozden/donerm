@@ -127,6 +127,22 @@ export default function Profile() {
     }
   };
 
+  const handleProductDelete = async (productId) => {
+    try {
+      const res = await fetch(`/api/product/delete/${productId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if(data.success === false){
+        console.log(data.message);
+        return;
+      }
+      setUserProducts((prev) => prev.filter((product) => product._id !== productId));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile Page</h1>
@@ -176,7 +192,7 @@ export default function Profile() {
         </Link>
 
         <div className="flex flex-col item-center space-y-4">
-          <button className="bg-red-500 uppercase p-1 rounded-lg text-white">Delete</button>
+          <button onClick={()=>handleProductDelete(product._id)} className="bg-red-500 uppercase p-1 rounded-lg text-white">Delete</button>
           <button className="bg-green-500 uppercase p-1 rounded-lg text-white">Edit</button>
         </div>
 
