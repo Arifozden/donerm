@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDownloadURL,getStorage,ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function CreateProduct() {
     const {currentUser} = useSelector( state => state.user);
     const navigate = useNavigate();
+    const params = useParams();
     const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState({
         images: [],
@@ -24,7 +25,23 @@ export default function CreateProduct() {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    console.log(formData);
+
+    
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const productId = params.productId;
+            const res = await fetch(`/api/product/get/${productId}`);
+            const data = await res.json();
+            if(data.success === false) {
+                console.log(data.message);
+                return;
+            }
+            setFormData(data);
+        }
+        fetchProduct();
+    }, []);
+    
+    
     const handleImageSubmit = (e) => {
         if(files.length > 0 && files.length + formData.images.length < 7) {
             setUploading(true);
@@ -93,7 +110,7 @@ export default function CreateProduct() {
             setLoading(true);
             setError(false);
 
-            const res = await fetch('/api/product/create', {
+            const res = await fetch(`/api/product/update/${params.productId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +133,7 @@ export default function CreateProduct() {
     };
   return (
     <main className='p-3 max-w-4xl mx-auto'>
-        <h1 className='text-3xl font-semibold text-center my-7'>Create a Product</h1>
+        <h1 className='text-3xl font-semibold text-center my-7'>Update Product</h1>
         <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
             <div className='flex flex-col gap-3 flex-1'>
                 <input type="text" placeholder='Title' className='border p-3 rounded-lg' id='title' maxLength='60' minLength='3' required
@@ -169,7 +186,7 @@ export default function CreateProduct() {
                     ))
                 }
             <button disabled={loading || uploading} className='p-2 bg-blue-700 text-white rounded-lg uppercase hover:opacity-80 disabled:opacity-70'>
-                {loading ? 'Creating...' : 'Create'}
+                {loading ? 'Updating...' : 'Update'}
             </button>
             {error && <p className='text-red-500 text-sm'>{error}</p>}
             </div>

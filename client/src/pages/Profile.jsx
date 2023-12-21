@@ -193,7 +193,8 @@ export default function Profile() {
 
         <div className="flex flex-col item-center space-y-4">
           <button onClick={()=>handleProductDelete(product._id)} className="bg-red-500 uppercase p-1 rounded-lg text-white">Delete</button>
-          <button className="bg-green-500 uppercase p-1 rounded-lg text-white">Edit</button>
+          <Link to={`/update-produc/${product._id}`}>
+          <button className="bg-green-500 uppercase p-1 rounded-lg text-white">Edit</button></Link>
         </div>
 
         </div>))}

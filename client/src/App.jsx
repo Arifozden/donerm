@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Products from './pages/Products';
 import PrivateRoute from './components/privateRoute';
 import CreateProduct from './pages/CreateProduct';
+import UpdateProduc from './pages/UpdateProduc';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
     <Route element={<PrivateRoute />}>
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-product" element={<CreateProduct />} />
+      <Route path="/update-produc/:productId" element={<UpdateProduc />} />
     </Route>
     <Route path="/products" element={<Products />} />
   </Routes>
