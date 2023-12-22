@@ -9,6 +9,7 @@ import Products from './pages/Products';
 import PrivateRoute from './components/privateRoute';
 import CreateProduct from './pages/CreateProduct';
 import UpdateProduc from './pages/UpdateProduc';
+import Product from './pages/Product';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
     <Route path="/sign-in" element={<SignIn />} />
     <Route path="/sign-up" element={<SignUp />} />
     <Route path="/about" element={<About />} />
+    <Route path="/product/:productId" element={<Product />} />
     <Route element={<PrivateRoute />}>
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-product" element={<CreateProduct />} />
