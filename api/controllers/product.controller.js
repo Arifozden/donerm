@@ -49,3 +49,38 @@ export const getProduct = async (req, res, next) => {
         next(error);
     }
 }
+
+export const getProducts = async (req, res, next) => {
+    try {
+        const limit = parseInt(req.query.limit) || 6;
+        const startIndex = parseInt(req.query.startIndex) || 0;
+
+        let category = req.query.category;
+        if(category === undefined || category === 'all') {
+            category = { $in: ['electronics', 'clothes', 'accessories', 'books', 'furniture', 'other']};
+        }
+
+        let condition = req.query.condition;
+        if(condition === undefined || condition === 'all') {
+            condition = { $in: ['new', 'used', 'very used']};
+        }
+
+        const searchTerm = req.query.searchTerm || '';
+
+        const sort = req.query.sort || 'createdAt';
+
+        const order = req.query.order || 'desc';
+
+        const products = await Product.find({
+                name: {$regex: searchTerm, $options: 'i'},
+                category,
+                condition,
+            }).sort({[sort]: order}).limit(limit).skip(startIndex);
+
+            return res.status(200).json(products);
+
+
+    } catch (error) {
+        next(error);
+    }
+};
