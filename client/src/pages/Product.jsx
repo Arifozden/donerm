@@ -1,6 +1,7 @@
 import React from 'react';
 import{ useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 //import { Swiper, SwiperSlide } from 'swiper/react';
 //import SwiperCore from 'swiper';
 //import { Navigation } from 'swiper/modules';
@@ -14,14 +15,16 @@ import {
     FaMobileAlt,
     FaUserAlt,
   } from 'react-icons/fa';
+import Contact from '../components/Contact';
 
 export default function Product() {
     //SwiperCore.use([Navigation]);
     const [product, setProduct] = useState(null); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [contact, setContact] = useState(false);
     const params = useParams();  
-
+    const {currentUser} = useSelector((state) => state.user);
     const [isModalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -96,8 +99,8 @@ fetchProduct();
             />
           ))}
         </div>
-        <div>
-        <p className='text-2xl font-semibold uppercase pt-4 pb-2'>{product.title}</p>
+        <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
+        <p className='text-2xl font-semibold uppercase'>{product.title}</p>
         <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-2 rounded-md'>{product.price} kr</p>
           
         </div>
@@ -111,21 +114,27 @@ fetchProduct();
             
           </div>
         )}
-        <div className='flex pt-3'>
+        <div className='flex'>
   <span className='font-semibold pr-2'>Condition:</span>
   {product && (
     <p className={`text-slate-800 ${colorClass} pl-2`}>{product.condition}</p>
   )}
 </div>
+<div className='flex flex-col max-w-[400px] mx-auto'>
         <p className='text-slate-800 pt-10'>
                 <span className='font-semibold'>Description:</span> {product.description} <br/>
-            </p>
+            </p></div>
         <ul>
             <li className='flex items-center mt-6 gap-2 text-slate-600  text-sm pt-3'><FaMapMarkerAlt className='text-green-700' />{product.address}</li>
             <li className='flex items-center mt-6 gap-2 text-slate-600  text-sm pt-3'><FaUserAlt className='text-green-700' />{product.userRef}</li>
             <li className='flex items-center mt-6 gap-2 text-slate-600  text-sm pt-3'><FaMobileAlt className='text-green-700' />{product.phone}</li>
             <li className='flex items-center mt-6 gap-2 text-slate-600  text-sm pt-3'><FaEnvelopeSquare className='text-green-700' /><a href={`mailto:${product.email}`}>{product.email}</a></li>
         </ul>
+        {currentUser && product.userRef !== currentUser._id && !contact && (
+           <button onClick={()=>setContact(true)} className='bg-green-700 text-white rounded-lg uppercase hover:opacity-90 p-2 mt-5'>Contact Selger</button> 
+        )}
+        {contact && <Contact product={product} />}
+        
       </>
     )}
   </main>
