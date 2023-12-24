@@ -1,7 +1,6 @@
 import express from 'express';
 import { createProduct, deleteProduct, updateProduct, getProduct, getProducts } from '../controllers/product.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
-import { get } from 'mongoose';
 
 const router = express.Router();
 

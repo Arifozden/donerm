@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
         },
         condition:{
             type: String,
-            required: [true, "Used is required"],
+            required: [true, "Condition is required"],
         },
         price: {
             type: Number,
