@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ProductItem from '../components/ProductItem';
 
 export default function Search() {
 
@@ -115,7 +116,7 @@ export default function Search() {
                 <div className='flex items-center gap-2 mb-4'>
                     <label className=' font-semibold'>Category</label>
                     <select name="category" id="category" className='border rounded-lg p-2 w-full' onChange={handleChange}>
-                        <option value="All">All</option>
+                        <option value="all">All</option>
                         <option value='Electronics'>Electronics</option>
                         <option value='Clothes'>Clothes</option>
                         <option value='Accessories'>Accessories</option>
@@ -127,7 +128,7 @@ export default function Search() {
                 <div className='flex items-center gap-2 mb-4'>
                     <label className=' font-semibold'>Condition</label>
                     <select name='condition' id='condition' className='border rounded-lg p-2 w-full' onChange={handleChange}>
-                        <option value='All'>All</option>
+                        <option value='all'>All</option>
                         <option value='New'>New</option>
                         <option value='Used'>Used</option>
                         <option value='Very Used'>Very Used</option>
@@ -148,8 +149,15 @@ export default function Search() {
                 </div>
             </form>
         </div>
-        <div className="div">
+        <div className="flex-1">
             <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-3'>Search Results : </h1>
+            <div className="p-7 flex flex-wrap gap-4">
+                {!loading && products.length === 0 && (
+                <p className='text-xl text-red-500'>No products found</p>
+                )}
+                {loading && (<p className='text-xl text-slate-600 text-center w-full'>Loading...</p>)}
+                {!loading && products && products.map((product) => (<ProductItem key={product._id} product={product}/>))}
+            </div>
         </div>
     </div>
   )

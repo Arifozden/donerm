@@ -165,7 +165,7 @@ export default function Profile() {
         <button disabled={loading} className="bg-blue-700 text-white rounded-lg p-3 uppercase hover:opacity-90 disabled:opacity-75">
           {loading ? 'Loading...' : 'Update'}
         </button>
-        <Link className="bg-green-500 text-white p-3 rounded-lg uppercase text-center hover:opacity-90" to={"create-product"}>
+        <Link className="bg-green-500 text-white p-3 rounded-lg uppercase text-center hover:opacity-90" to={"../create-product"}>
             Create Product
         </Link>
       </form>
