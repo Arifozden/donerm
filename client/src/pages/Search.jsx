@@ -21,8 +21,9 @@ export default function Search() {
     
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
+    const [showMore, setShowMore] = useState(false);
 
-    console.log(products);
+    
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
@@ -52,9 +53,15 @@ export default function Search() {
 
         const fetchProducts = async () => {
             setLoading(true);
+            setShowMore(false);
             const searchQuery = urlParams.toString();
             const res = await fetch(`/api/product/get?${searchQuery}`);
             const data = await res.json();
+            if(data.length > 5){
+                setShowMore(true);
+            }else{
+                setShowMore(false);
+            }
             setProducts(data);
             setLoading(false);
         };
@@ -101,6 +108,20 @@ export default function Search() {
         urlParams.set('order', sidebardata.order);
         const searchQuery = urlParams.toString();
         navigate(`/search?${searchQuery}`);
+    };
+
+    const onShowMoreClick = async () => {
+        const numberOfProducts = products.length;
+        const startIndex = numberOfProducts;
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set('startIndex', startIndex);
+        const searchQuery = urlParams.toString();
+        const res = await fetch(`/api/product/get?${searchQuery}`);
+        const data = await res.json();
+        if(data.length < 9){
+            setShowMore(false);
+        }
+        setProducts([...products, ...data]);
     };
     
 
@@ -157,6 +178,10 @@ export default function Search() {
                 )}
                 {loading && (<p className='text-xl text-slate-600 text-center w-full'>Loading...</p>)}
                 {!loading && products && products.map((product) => (<ProductItem key={product._id} product={product}/>))}
+                {showMore && (
+                    <button onClick={onShowMoreClick} className='text-green-500 p-7 hover:underline text-center w-full'>Show More</button>
+                )
+                }
             </div>
         </div>
     </div>
